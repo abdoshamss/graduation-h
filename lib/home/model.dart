@@ -49,7 +49,7 @@ class Person {
       name: json['name'],
       originalName: json['original_name'],
       popularity: json['popularity'],
-      profilePath: json['profile_path'],
+      profilePath: "https://image.tmdb.org/t/p/w500${json['profile_path']}",
       knownFor: (json['known_for'] as List?)
           ?.map((item) => KnownFor.fromJson(item))
           .toList() ?? [],
@@ -93,12 +93,12 @@ class KnownFor {
 
   factory KnownFor.fromJson(Map<String, dynamic> json) {
     return KnownFor(
-      backdropPath: json['backdrop_path'],
+      backdropPath: "https://image.tmdb.org/t/p/w500${json['backdrop_path']}",
       id: json['id'],
       title: json['title'],
       originalTitle: json['original_title'],
       overview: json['overview'],
-      posterPath: json['poster_path'],
+      posterPath: "https://image.tmdb.org/t/p/w500${json['poster_path']}",
       mediaType: json['media_type'],
       adult: json['adult'],
       originalLanguage: json['original_language'],
