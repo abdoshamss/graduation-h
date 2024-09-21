@@ -69,6 +69,12 @@ class _DetailsStateScreen extends State<DetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.photo),
+          )
+        ],
         title: const Text(
           'Details Screen',
           style: TextStyle(

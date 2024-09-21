@@ -15,24 +15,6 @@ class PhotoScreen extends StatefulWidget {
 }
 
 class _PhotoScreenState extends State<PhotoScreen> {
-  // downloadPhoto(String photoUrl) async {
-  //   try {
-  //     // Saved with this method.
-  //     var imageId = await ImageDownloader.downloadImage(
-  //         "https://raw.githubusercontent.com/wiki/ko2ic/image_downloader/images/flutter.png");
-  //     if (imageId == null) {
-  //       return;
-  //     }
-  //
-  //     // Below is a method of obtaining saved image information.
-  //     var fileName = await ImageDownloader.findName(imageId);
-  //     var path = await ImageDownloader.findPath(imageId);
-  //     var size = await ImageDownloader.findByteSize(imageId);
-  //     var mimeType = await ImageDownloader.findMimeType(imageId);
-  //   } on PlatformException catch (error) {
-  //     print(error);
-  //   }
-  // }
   int progress = 0;
   dynamic downloadId;
   String? status;
@@ -131,7 +113,6 @@ class _PhotoScreenState extends State<PhotoScreen> {
                     backgroundColor: WidgetStateProperty.all(Colors.blueAccent),
                   ),
                   onPressed: () async {
-                    // downloadPhoto(widget.photoUrl);
                     final permission = await FlDownloader.requestPermission();
                     if (permission == StoragePermissionStatus.granted) {
                       await FlDownloader.download(
