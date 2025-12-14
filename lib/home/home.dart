@@ -83,8 +83,8 @@ class PersonItem extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => DetailsScreen(id: person!.id!,
-
+                builder: (context) => DetailsScreen(
+                      id: person!.id!,
                     )));
       },
       child: Container(
@@ -142,10 +142,19 @@ class PersonItem extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if( person!.name!   != person!.originalName!)
-
+                    if (person!.name! != person!.originalName!)
+                      Text(
+                        person!.originalName!,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 16,
+                            color: Colors.black),
+                      ),
+                    const SizedBox(
+                      height: 8,
+                    ),
                     Text(
-                          person!.originalName!,
+                      "popularity:\t${person!.popularity!}",
                       style: const TextStyle(
                           fontWeight: FontWeight.w800,
                           fontSize: 16,
@@ -155,17 +164,7 @@ class PersonItem extends StatelessWidget {
                       height: 8,
                     ),
                     Text(
-                      "popularity:\t${person!.popularity!}" ,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 16,
-                          color: Colors.black),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                   (person!.adult!)==true ? "Adult" : "Not Adult",
+                      (person!.adult!) == true ? "Adult" : "Not Adult",
                       style: const TextStyle(
                           fontWeight: FontWeight.w800,
                           fontSize: 16,

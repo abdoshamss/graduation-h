@@ -38,6 +38,7 @@ class _DetailsStateScreen extends State<DetailsScreen> {
 
       if (response.data != null) {
         data = PersonDetails.fromJson(response.data as Map<String, dynamic>);
+
       }
     } catch (e) {
       print(e);
