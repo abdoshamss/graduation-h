@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:garduation_h/details/details.dart';
 
 import '../favorites/favorites_screen.dart';
+import '../settings/settings_screen.dart';
 import 'model.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -60,7 +61,16 @@ class _MyHomePageState extends State<MyHomePage> {
               );
             },
             icon: const Icon(Icons.favorite, color: Colors.white),
-          )
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SettingsScreen()),
+              );
+            },
+            icon: const Icon(Icons.settings_rounded, color: Colors.white),
+          ),
         ],
         title: const Text(
           'Home',
