@@ -1,7 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:garduation_h/details/photos_model.dart';
 import 'package:garduation_h/photo/photo.dart';
+
+import 'package:garduation_h/photo/image_download_screen.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'model.dart';
 
@@ -38,10 +42,11 @@ class _DetailsStateScreen extends State<DetailsScreen> {
 
       if (response.data != null) {
         data = PersonDetails.fromJson(response.data as Map<String, dynamic>);
-
       }
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     } finally {
       isLoading = false;
       setState(() {});
@@ -59,7 +64,9 @@ class _DetailsStateScreen extends State<DetailsScreen> {
             PersonPhotos.fromJson(response.data as Map<String, dynamic>);
       }
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     } finally {
       isLoadingPhotos = false;
       setState(() {});
@@ -71,9 +78,45 @@ class _DetailsStateScreen extends State<DetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         actions: [
+          ValueListenableBuilder(
+            valueListenable: Hive.box('favorites').listenable(),
+            builder: (context, Box box, _) {
+              bool isFavorite = box.containsKey(widget.id.toString());
+              return IconButton(
+                onPressed: () {
+                  if (data != null) {
+                    if (isFavorite) {
+                      box.delete(widget.id.toString());
+                    } else {
+                      box.put(widget.id.toString(), {
+                        'id': data!.id,
+                        'name': data!.name,
+                        'profilePath': data!.profilePath,
+                      });
+                    }
+                  }
+                },
+                icon: Icon(
+                  isFavorite ? Icons.favorite : Icons.favorite_border,
+                  color: isFavorite ? Colors.red : Colors.white,
+                ),
+              );
+            },
+          ),
           IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.photo),
+            onPressed: () {
+              if (data?.profilePath != null) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ImageDownloadScreen(
+                      imageUrl: data!.profilePath!,
+                    ),
+                  ),
+                );
+              }
+            },
+            icon: const Icon(Icons.download, color: Colors.white),
           )
         ],
         title: const Text(
@@ -97,12 +140,13 @@ class _DetailsStateScreen extends State<DetailsScreen> {
           ? const Center(child: CircularProgressIndicator())
           : ListView(
               children: [
-                Image.network(
-                  data!.profilePath!,
-                  height: MediaQuery.of(context).size.height / 2.5,
-                  fit: BoxFit.fill,
-                  width: MediaQuery.of(context).size.width,
-                ),
+                if (data?.profilePath != null)
+                  Image.network(
+                    data!.profilePath!,
+                    height: MediaQuery.of(context).size.height / 2.5,
+                    fit: BoxFit.fill,
+                    width: MediaQuery.of(context).size.width,
+                  ),
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: Column(

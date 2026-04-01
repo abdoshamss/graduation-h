@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:garduation_h/details/details.dart';
 
+import '../favorites/favorites_screen.dart';
 import 'model.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -36,7 +38,9 @@ class _MyHomePageState extends State<MyHomePage> {
         data = PersonsList.fromJson(response.data as Map<String, dynamic>);
       }
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     } finally {
       isLoading = false;
       setState(() {});
@@ -47,6 +51,17 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const FavoritesScreen()),
+              );
+            },
+            icon: const Icon(Icons.favorite, color: Colors.white),
+          )
+        ],
         title: const Text(
           'Home',
           style: TextStyle(
